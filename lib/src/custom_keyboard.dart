@@ -93,30 +93,7 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          buildNumberButton(
-            icon: widget.specialKey ??
-                Icon(
-                  Icons.circle,
-                  key: const Key('specialKey'),
-                  color: widget.pinTheme.keysColor,
-                  size: 7,
-                ),
-            onPressed: widget.specialKeyOnTap ??
-                () {
-                  if (value.length < widget.maxLength) {
-                    if (!value.contains(".")) {
-                      setState(() {
-                        value = value + ".";
-                      });
-                    }
-                  }
-                  widget.onChanged!(value);
-                  if (value.length >= widget.maxLength &&
-                      widget.onCompleted != null) {
-                    widget.onCompleted!(value);
-                  }
-                },
-          ),
+          const Spacer(),
           buildNumberButton(
             number: 0,
             onPressed: () {
