@@ -94,6 +94,7 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          const Spacer(),
           buildNumberButton(
             number: 0,
             onPressed: () {
