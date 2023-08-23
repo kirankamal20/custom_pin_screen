@@ -151,29 +151,18 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
     if (widget.maxLength == null || widget.maxLength! < 1) {
       throw AssertionError('maxLength must be greater than 0');
     }
-    return Column(
-      children: [
-        const Expanded(
-          child: SizedBox(),
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: Column(
+          children: [
+            buildNumberRow([1, 2, 3]),
+            buildNumberRow([4, 5, 6]),
+            buildNumberRow([7, 8, 9]),
+            buildSpecialRow(),
+          ],
         ),
-        const SizedBox(
-          height: 80,
-        ),
-        Expanded(
-          flex: 2,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Column(
-              children: [
-                buildNumberRow([1, 2, 3]),
-                buildNumberRow([4, 5, 6]),
-                buildNumberRow([7, 8, 9]),
-                buildSpecialRow(),
-              ],
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
