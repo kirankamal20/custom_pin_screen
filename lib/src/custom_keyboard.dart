@@ -40,6 +40,13 @@ class CustomKeyBoard extends StatefulWidget {
 
 class _CustomKeyBoardState extends State<CustomKeyBoard> {
   String value = "";
+  @override
+  void didChangeDependencies() {
+    if (widget.cleartext != null && widget.cleartext == true) {
+      value = "";
+    }
+    super.didChangeDependencies();
+  }
 
   Widget buildNumberButton({int? number, Widget? icon, Function()? onPressed}) {
     getChild() {
@@ -71,11 +78,7 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
               onPressed: () {
                 if (value.length < widget.maxLength) {
                   setState(() {
-                    if (widget.cleartext != null && widget.cleartext == true) {
-                      value = "";
-                    } else {
-                      value = value + buttonNumber.toString();
-                    }
+                    value = value + buttonNumber.toString();
                   });
                 }
                 widget.onChanged!(value);
