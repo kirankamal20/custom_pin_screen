@@ -28,7 +28,7 @@ class CustomKeyBoard extends StatefulWidget {
     this.pinTheme = const PinTheme.defaults(),
     this.specialKey,
     this.onChanged,
-    this.value ?? "",
+    this.value = "",
     this.specialKeyOnTap,
     this.onCompleted,
   })  : assert(maxLength > 0),
