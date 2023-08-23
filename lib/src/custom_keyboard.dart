@@ -43,7 +43,9 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
   @override
   void didChangeDependencies() {
     if (widget.cleartext != null && widget.cleartext == true) {
-      value = "";
+      setState(() {
+        value = "";
+      });
     }
     super.didChangeDependencies();
   }
