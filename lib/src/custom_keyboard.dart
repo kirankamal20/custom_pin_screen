@@ -21,6 +21,7 @@ class CustomKeyBoard extends StatefulWidget {
 
   /// maximum length of the amount.
   final int maxLength;
+  final bool? cleartext;
 
   const CustomKeyBoard({
     Key? key,
@@ -30,6 +31,7 @@ class CustomKeyBoard extends StatefulWidget {
     this.onChanged,
     this.specialKeyOnTap,
     this.onCompleted,
+    this.cleartext,
   })  : assert(maxLength > 0),
         super(key: key);
   @override
@@ -38,6 +40,7 @@ class CustomKeyBoard extends StatefulWidget {
 
 class _CustomKeyBoardState extends State<CustomKeyBoard> {
   String value = "";
+
   Widget buildNumberButton({int? number, Widget? icon, Function()? onPressed}) {
     getChild() {
       if (icon != null) {
@@ -68,7 +71,11 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
               onPressed: () {
                 if (value.length < widget.maxLength) {
                   setState(() {
-                    value = value + buttonNumber.toString();
+                    if (widget.cleartext != null && widget.cleartext == true) {
+                      value = "";
+                    } else {
+                      value = value + buttonNumber.toString();
+                    }
                   });
                 }
                 widget.onChanged!(value);
