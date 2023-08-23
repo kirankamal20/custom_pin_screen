@@ -134,7 +134,6 @@ class _WalletScreenState extends State<WalletScreen> {
           ),
           const SizedBox(height: 80),
           CustomKeyBoard(
-            cleartext: false,
             pinTheme: PinTheme(
               textColor: Colors.red,
               keysColor: Colors.blue,
@@ -235,7 +234,6 @@ class _PinAuthScreenState extends State<PinAuthScreen> {
             ),
             const SizedBox(height: 80),
             CustomKeyBoard(
-              cleartext: false,
               pinTheme: pinTheme,
               onChanged: (v) {
                 if (kDebugMode) {

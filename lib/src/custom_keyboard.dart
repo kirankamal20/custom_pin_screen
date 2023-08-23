@@ -10,48 +10,38 @@ class CustomKeyBoard extends StatefulWidget {
   /// special key to be displayed on the widget. Default is '.'
   final Widget? specialKey;
 
+  /// on pressed function to be called when the submit button is pressed.
+  final Function? onbuttonClick;
+
   /// on changed function to be called when the amount is changed.
   final Function(String)? onChanged;
-
-  /// on competed function to be called when the pin code is complete.
-  final Function(String)? onCompleted;
 
   /// function to be called when special keys are pressed.
   final Function()? specialKeyOnTap;
 
-  /// maximum length of the amount.
-  final int maxLength;
-  final bool? cleartext;
+  /// submit button text.
+  final Widget? submitLabel;
 
+  /// maximum length of the amount.
+  final int? maxLength;
+  // final TextEditingController value;
+  final TextEditingController? controller;
   const CustomKeyBoard({
     Key? key,
     required this.maxLength,
+    this.controller,
     this.pinTheme = const PinTheme.defaults(),
     this.specialKey,
+    this.onbuttonClick,
     this.onChanged,
     this.specialKeyOnTap,
-    this.onCompleted,
-    this.cleartext,
-  })  : assert(maxLength > 0),
-        super(key: key);
+    this.submitLabel,
+  }) : super(key: key);
   @override
   _CustomKeyBoardState createState() => _CustomKeyBoardState();
 }
 
 class _CustomKeyBoardState extends State<CustomKeyBoard> {
-  String value = "";
-  @override
-  void didChangeDependencies() {
-    if (widget.cleartext != null && widget.cleartext == true) {
-      if (value.isNotEmpty) {
-        setState(() {
-          value = value.substring(0, 0);
-        });
-      }
-    }
-    super.didChangeDependencies();
-  }
-
   Widget buildNumberButton({int? number, Widget? icon, Function()? onPressed}) {
     getChild() {
       if (icon != null) {
@@ -80,15 +70,12 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
         .map((buttonNumber) => buildNumberButton(
               number: buttonNumber,
               onPressed: () {
-                if (value.length < widget.maxLength) {
+                if (widget.controller!.text.length < widget.maxLength!) {
                   setState(() {
-                    value = value + buttonNumber.toString();
+                    widget.controller!.text =
+                        widget.controller!.text + buttonNumber.toString();
                   });
-                }
-                widget.onChanged!(value);
-                if (value.length >= widget.maxLength &&
-                    widget.onCompleted != null) {
-                  widget.onCompleted!(value);
+                  widget.onChanged!(widget.controller!.text);
                 }
               },
             ))
@@ -111,15 +98,12 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
           buildNumberButton(
             number: 0,
             onPressed: () {
-              if (value.length < widget.maxLength) {
+              if (widget.controller!.text.length < widget.maxLength!) {
                 setState(() {
-                  value = value + 0.toString();
+                  widget.controller!.text =
+                      widget.controller!.text + 0.toString();
                 });
-              }
-              widget.onChanged!(value);
-              if (value.length >= widget.maxLength &&
-                  widget.onCompleted != null) {
-                widget.onCompleted!(value);
+                widget.onChanged!(widget.controller!.text);
               }
             },
           ),
@@ -130,12 +114,13 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
                 color: widget.pinTheme.keysColor,
               ),
               onPressed: () {
-                if (value.isNotEmpty) {
+                if (widget.controller!.text.isNotEmpty) {
                   setState(() {
-                    value = value.substring(0, value.length - 1);
+                    widget.controller!.text = widget.controller!.text
+                        .substring(0, widget.controller!.text.length - 1);
                   });
                 }
-                widget.onChanged!(value);
+                widget.onChanged!(widget.controller!.text);
               }),
         ],
       ),
@@ -144,18 +129,32 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: Column(
-          children: [
-            buildNumberRow([1, 2, 3]),
-            buildNumberRow([4, 5, 6]),
-            buildNumberRow([7, 8, 9]),
-            buildSpecialRow(),
-          ],
+    if (widget.maxLength == null || widget.maxLength! < 1) {
+      throw AssertionError('maxLength must be greater than 0');
+    }
+    return Column(
+      children: [
+        const Expanded(
+          child: SizedBox(),
         ),
-      ),
+        const SizedBox(
+          height: 80,
+        ),
+        Expanded(
+          flex: 2,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Column(
+              children: [
+                buildNumberRow([1, 2, 3]),
+                buildNumberRow([4, 5, 6]),
+                buildNumberRow([7, 8, 9]),
+                buildSpecialRow(),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
