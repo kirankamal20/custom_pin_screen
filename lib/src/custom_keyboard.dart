@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class CustomKeyBoard extends StatefulWidget {
   /// Theme for the widget. Read more [PinTheme]
   final PinTheme pinTheme;
-
+  final String? value;
   /// special key to be displayed on the widget. Default is '.'
   final Widget? specialKey;
 
@@ -28,6 +28,7 @@ class CustomKeyBoard extends StatefulWidget {
     this.pinTheme = const PinTheme.defaults(),
     this.specialKey,
     this.onChanged,
+    this.value ?? "",
     this.specialKeyOnTap,
     this.onCompleted,
   })  : assert(maxLength > 0),
@@ -37,7 +38,6 @@ class CustomKeyBoard extends StatefulWidget {
 }
 
 class _CustomKeyBoardState extends State<CustomKeyBoard> {
-  String value = "";
   Widget buildNumberButton({int? number, Widget? icon, Function()? onPressed}) {
     getChild() {
       if (icon != null) {
